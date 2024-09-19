@@ -1,0 +1,5 @@
+[workspace]
+members = ["src/models-rs", "src/moofoo-backend"]
+resolver = "2"
+
+package.edition = '2024'

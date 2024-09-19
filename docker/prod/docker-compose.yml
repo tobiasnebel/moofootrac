@@ -1,0 +1,75 @@
+## networks
+# networks:
+  # moofoolog_net:
+
+## VOLUMES
+volumes:
+  postgres_data_moofoolog:
+    # assume someone created the volume for us, fail otherwise
+    external: true
+
+## SERVICECS
+services:
+  # postgres
+  postgres:
+    image: postgres:16.2
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres
+    environment:
+      - POSTGRES_DB=moofoolog_postgres
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "20011:5432"
+    # networks:
+    #   - moofoolog_net
+    volumes:
+      - postgres_data_moofoolog:/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+  
+  # app (backend + frontend)
+  moofoolog_app:
+    build:
+      context: ../../
+      dockerfile: docker/moofoolog/Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}
+    container_name: ${COMPOSE_PROJECT_NAME}_app
+    ports:
+      - "9011:9011"
+    # networks:
+    #   - moofoolog_net
+    links:
+      - postgres:postgres
+    environment:
+      - RUST_BACKTRACE=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    restart: unless-stopped
+    volumes:
+      # - ../../config/default.yml:/moofoolog/config/default.yml
+      # - ../../config/dev.yml:/moofoolog/config/dev.yml
+      - ../../config/local.yml:/moofoolog/config/default.yml
+    depends_on:
+        - postgres
+
+  # phppgadmin
+  #phppgadmin:
+  #  build:
+  #    context: ../container/phppgadmin
+  #    dockerfile: Dockerfile
+  #  image: ${COMPOSE_PROJECT_NAME}_phppgadmin
+  #  container_name: ${COMPOSE_PROJECT_NAME}_phppgadmin
+  #  ports:
+  #    - "30011:8080"
+  #  links:
+  #    - postgres:postgres
+  #  environment:
+  #    DATABASE_HOST: postgres

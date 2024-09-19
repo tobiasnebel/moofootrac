@@ -1,0 +1,10 @@
+{
+    // mandatory:
+    "mood": "nochmehrmäh",
+    // optional:
+    //"timestamp": "1759677278000",
+    "food1": "müsli",
+    "food1Time": "zeitig",
+    "food2": "nutella",
+    "food2Time":"mittag"
+}

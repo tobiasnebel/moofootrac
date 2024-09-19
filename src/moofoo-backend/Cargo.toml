@@ -1,0 +1,54 @@
+[package]
+name = "moofoolog"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+# add clap for parsing cmd line arguments
+clap = { version = "4.5.17", features = ["derive"] }
+
+# parse config files
+config = { version = "0.14", features = ["yaml"] }
+
+# enable (de)serialization for annotated structs
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = { version = "1.0.128" }
+
+# add 'tracing' crate as logging framework
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# add 'seaorm' crate for ORM
+sea-orm = { version = "1.0.1", features = [
+    "sqlx-postgres",
+    "runtime-tokio-native-tls",
+    "macros",
+    "with-chrono",
+] }
+# add seaorm's migration crate
+sea-orm-migration = "1.0.1"
+
+# add 'tokyo' crate for async support
+tokio = { version = "1.40.0", features = ["full", "tracing"] }
+
+# add 'axum' crate for web
+axum = { version = "0.7.5", features = ["macros"] }
+
+tower = { version = "0.5.2", features = ["util"] }
+tower-http = { version = "0.6.6", features = ["fs", "trace"] }
+
+# add our local 'models' crate for importing dtos
+models = { path = "../models-rs" }
+
+# add chrono for easier timezone handling
+chrono = "0.4.38"
+
+# add 'axum-prometheus' to collect HTTP and custom metrics
+axum-prometheus = { version = "0.7", features = [
+    "metrics-exporter-prometheus",
+] }
+base64 = "0.22.1"
+
+# add 'rust_xlsxwriter' to generate excel files
+rust_xlsxwriter = "0.61.0"
