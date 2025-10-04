@@ -13,11 +13,5 @@
 #![allow(clippy::to_string_trait_impl)]
 #![allow(clippy::new_without_default)]
 
-pub mod alarm_dto;
-pub use self::alarm_dto::AlarmDto;
-pub mod event_dto;
-pub use self::event_dto::EventDto;
-pub mod room_dto;
-pub use self::room_dto::RoomDto;
-pub mod schedule_dto;
-pub use self::schedule_dto::ScheduleDto;
+pub mod moo_foo_log_dto;
+pub use self::moo_foo_log_dto::MooFooLogDto;

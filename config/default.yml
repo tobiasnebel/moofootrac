@@ -6,7 +6,7 @@ logging:
     - hyper=info
     - sqlx=warn
     - tower=info
-    - alarmservice_rs=debug
+    - moofoo-backend=debug
 
 postgres:
   host: "localhost"
