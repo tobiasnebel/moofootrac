@@ -1,15 +1,16 @@
 use axum::{
+    Json,
     extract::{Path, Query, State},
     http::StatusCode,
-    Json,
 };
 use models::models::MooFooLogDto;
-use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter, Set};
+use sea_orm::{ActiveModelTrait, ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter, Set};
 use serde::{Deserialize, Serialize};
 use tracing::info;
 
 use crate::{
-    api::{errors::CustomError, router::AppState}, persistence::entities::moofoolog,
+    api::{errors::CustomError, router::AppState},
+    persistence::entities::moofoolog::{self, ActiveModel},
 };
 
 #[derive(Deserialize)]
@@ -56,6 +57,12 @@ pub async fn post_moofoolog(
     state: State<AppState>,
     Json(event_dto): Json<MooFooLogDto>,
 ) -> Result<StatusCode, CustomError> {
-    // ...
-    todo!()
+    let db = state.0.conn;
+
+    let logentry = ActiveModel::try_from(event_dto.clone())
+        .map_err(|e| CustomError::BadRequest(e.to_string()))?;
+
+    logentry.save(&db).await?;
+
+    Ok(StatusCode::CREATED)
 }
