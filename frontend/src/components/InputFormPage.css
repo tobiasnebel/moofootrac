@@ -1,0 +1,99 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.greeting {
+    font-size: 2.5em;
+    font-weight: bold;
+    align-self: flex-start;
+}
+
+.question {
+    align-self: flex-start;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.radio-option input[type="radio"] {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.5em;
+    height: 1.5em;
+    border: 0.15em solid currentColor;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    margin-bottom: 10px;
+}
+
+.radio-option input[type="radio"]::before {
+    content: "";
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #673ab7;
+}
+
+.radio-option input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+.input-section {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.input-section textarea {
+    width: 100%;
+    height: 80px;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    resize: none;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin: 5px 0;
+}
