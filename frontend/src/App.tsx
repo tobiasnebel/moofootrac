@@ -1,21 +1,32 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './components/LoginPage';
 import InputFormPage from './components/InputFormPage';
 import './App.css';
 
-const AppContent = () => {
-  const navigate = useNavigate();
+const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
+  const { isLoggedIn } = useAuth();
+  if (!isLoggedIn) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
 
-  const handleLogin = () => {
-    // Mock login logic
-    console.log('User logged in');
-    navigate('/form');
-  };
+const AppRoutes = () => {
+  const { isLoggedIn } = useAuth();
 
   return (
     <Routes>
-      <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
-      <Route path="/form" element={<InputFormPage />} />
+      <Route path="/" element={isLoggedIn ? <Navigate to="/form" /> : <LoginPage />} />
+      <Route
+        path="/form"
+        element={
+          <ProtectedRoute>
+            <InputFormPage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };
@@ -23,9 +34,12 @@ const AppContent = () => {
 const App = () => {
   return (
     <Router>
-      <div className="App">
-        <AppContent />
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Toaster position="top-center" reverseOrder={false} />
+          <AppRoutes />
+        </div>
+      </AuthProvider>
     </Router>
   );
 };
