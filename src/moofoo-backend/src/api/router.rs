@@ -26,11 +26,11 @@ pub struct AppState {
 pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
     // routes which should be always publicly accessible
     let routes: Router = Router::new()
-        .route("/hello", get(get_hello_handler))
-        .route("/login", get(get_login_handler))
-        .route("/moofoolog", get(get_moofoologs))
-        .route("/moofoolog", post(post_moofoolog))
-        .route("/metrics", get(|| async move { metric_handle.render() }))
+        .route("/api/hello", get(get_hello_handler))
+        .route("/api/login", get(get_login_handler))
+        .route("/api/moofoolog", get(get_moofoologs))
+        .route("/api/moofoolog", post(post_moofoolog))
+        .route("/api/metrics", get(|| async move { metric_handle.render() }))
         // >>> serve static frontend files
         .nest_service(
             "/app",
