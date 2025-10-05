@@ -33,7 +33,7 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/metrics", get(|| async move { metric_handle.render() }))
         // >>> serve static frontend files
         .nest_service(
-            "/station",
+            "/app",
             get(|request| async {
                 let service = ServeDir::new("./dist");
                 service.oneshot(request).await

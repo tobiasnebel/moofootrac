@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
+      // '/': {
+      //   target: 'http://127.0.0.1:9011',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/ui/, ''),
+      // },
       '/api': {
         target: 'http://127.0.0.1:9011',
         changeOrigin: true,
@@ -13,4 +18,5 @@ export default defineConfig({
       },
     },
   },
+  base: "app/",
 })
