@@ -54,8 +54,9 @@ services:
         max-file: "3"
     restart: unless-stopped
     volumes:
-      - ../../config/default.yml:/moofoolog/config/default.yml
-      - ../../config/dev.yml:/moofoolog/config/dev.yml
+      # - ../../config/default.yml:/moofoolog/config/default.yml
+      # - ../../config/dev.yml:/moofoolog/config/dev.yml
+      - ../../config/local.yml:/moofoolog/config/default.yml
     depends_on:
         - postgres
 

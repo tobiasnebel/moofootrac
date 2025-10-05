@@ -1,0 +1,16 @@
+server:
+  port: 9011
+
+logging:
+  levels:
+    - hyper=info
+    - sqlx=warn
+    - tower=info
+    - moofoolog=debug
+
+postgres:
+  host: "192.168.178.72"
+  port: 20011
+  user: "demo"
+  password: "demo"
+  database: "moofoolog_postgres"

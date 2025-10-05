@@ -18,5 +18,6 @@ export default defineConfig({
       },
     },
   },
-  base: "app/",
+  // base: "app/",
+  // root: "frontend/",
 })
