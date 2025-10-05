@@ -10,7 +10,7 @@ logging:
 
 postgres:
   host: "localhost"
-  port: 20001
+  port: 20011
   user: "demo"
   password: "demo"
-  database: "demo_postgres"
+  database: "moofoolog_postgres"

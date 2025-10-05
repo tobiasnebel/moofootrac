@@ -4,11 +4,11 @@ services:
     image: postgres:16.2
     container_name: ${COMPOSE_PROJECT_NAME}_postgres
     environment:
-      - POSTGRES_DB=demo_postgres
+      - POSTGRES_DB=moofoolog_postgres
       - POSTGRES_USER=demo
       - POSTGRES_PASSWORD=demo
     ports:
-      - "20001:5432"
+      - "20011:5432"
   
   phppgadmin:
     build:
@@ -17,7 +17,7 @@ services:
     image: ${COMPOSE_PROJECT_NAME}_phppgadmin
     container_name: ${COMPOSE_PROJECT_NAME}_phppgadmin
     ports:
-      - "30008:8080"
+      - "30011:8080"
     links:
       - postgres:postgres
     environment:
