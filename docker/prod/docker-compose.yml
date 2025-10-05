@@ -1,0 +1,44 @@
+## VOLUMES
+volumes:
+  postgres_data:
+    # assume someone created the volume for us, fail otherwise
+    external: true
+
+## SERVICECS
+services:
+  # postgres
+  postgres:
+    image: postgres:16.2
+    container_name: ${COMPOSE_PROJECT_NAME}_postgres
+    environment:
+      - POSTGRES_DB=moofoolog_postgres
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+    ports:
+      - "20011:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+  
+  # app (backend + frontend)
+  moofoolog_app:
+    build:
+      context: ../moofoolog
+      dockerfile: Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}
+    container_name: ${COMPOSE_PROJECT_NAME}_app
+    ports:
+      - "9011:8080"
+
+  # phppgadmin
+  phppgadmin:
+    build:
+      context: ../container/phppgadmin
+      dockerfile: Dockerfile
+    image: ${COMPOSE_PROJECT_NAME}_phppgadmin
+    container_name: ${COMPOSE_PROJECT_NAME}_phppgadmin
+    ports:
+      - "30011:8080"
+    links:
+      - postgres:postgres
+    environment:
+      DATABASE_HOST: postgres

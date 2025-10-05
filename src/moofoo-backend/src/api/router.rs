@@ -5,11 +5,15 @@ use axum::{
 
 use axum_prometheus::{PrometheusMetricLayer, metrics_exporter_prometheus::PrometheusHandle};
 use sea_orm::DatabaseConnection;
+use tower::ServiceExt;
+use tower_http::services::ServeDir;
 
 use crate::metrics::AppMetrics;
 
 use super::handlers::{
-    hello_handler::hello_handler as get_hello_handler, login_handler::get_login_handler, moofoolog_handler::{get_moofoologs, post_moofoolog}
+    hello_handler::hello_handler as get_hello_handler,
+    login_handler::get_login_handler,
+    moofoolog_handler::{get_moofoologs, post_moofoolog},
 };
 
 #[derive(Clone)]
@@ -27,6 +31,15 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/moofoolog", get(get_moofoologs))
         .route("/moofoolog", post(post_moofoolog))
         .route("/metrics", get(|| async move { metric_handle.render() }))
+        // >>> serve static frontend files
+        .nest_service(
+            "/station",
+            get(|request| async {
+                let service = ServeDir::new("./dist");
+                service.oneshot(request).await
+            }),
+        )
+        // <<<
         .with_state(state.clone())
         .layer(PrometheusMetricLayer::new());
 
