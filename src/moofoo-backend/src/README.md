@@ -1,5 +1,3 @@
-# Demo Alarmservice rust
-
 ## Build
 ```bash
 cargo build

@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import './LoginPage.css';
@@ -16,7 +14,7 @@ const LoginPage: React.FC = () => {
     try {
       // The user specified the endpoint as "POST /login?auth=xxx"
       // I'll assume 'xxx' is the password. The username is not used in the endpoint.
-      const response = await axios.post(`/api/login?auth=${password}`);
+      const response = await axios.get(`/api/login?auth=${password}`);
 
       if (response.data && response.data.token) {
         login(response.data.token);
