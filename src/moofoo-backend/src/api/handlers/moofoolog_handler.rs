@@ -19,7 +19,7 @@ use crate::{
     },
 };
 
-use super::WithResolvedUserName;
+use super::{WithResolvedUserName, TOKEN_HEADER_NAME};
 
 #[derive(Deserialize)]
 pub struct LogQueryParams {
@@ -35,8 +35,7 @@ pub struct MooFooLogPage {
     data: Vec<MooFooLogGetDto>,
 }
 
-/// that header name, yikes
-pub const TOKEN_HEADER_NAME: &str = "MooFoo-Token";
+
 
 /// Checks:
 ///   - presence of token header

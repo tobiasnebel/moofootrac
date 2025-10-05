@@ -72,9 +72,9 @@ const InputFormPage: React.FC = () => {
     }
 
     try {
-      await axios.post('/api/log', apiPayload, {
+      await axios.post('/api/moofoolog', apiPayload, {
         headers: {
-          'MyToken': token,
+          'MooFoo-Token': token,
         },
       });
       toast.success('Submission successful!', { id: loadingToast });

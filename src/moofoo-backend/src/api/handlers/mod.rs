@@ -14,3 +14,6 @@ impl<T> WithResolvedUserName<T> {
         Self { user_name, data }
     }
 }
+
+/// that header name, yikes
+pub const TOKEN_HEADER_NAME: &str = "MooFoo-Token";
