@@ -22,23 +22,23 @@ services:
   # app (backend + frontend)
   moofoolog_app:
     build:
-      context: ../moofoolog
-      dockerfile: Dockerfile
+      context: ../../
+      dockerfile: docker/moofoolog/Dockerfile
     image: ${COMPOSE_PROJECT_NAME}
     container_name: ${COMPOSE_PROJECT_NAME}_app
     ports:
-      - "9011:8080"
+      - "9011:9011"
 
   # phppgadmin
-  phppgadmin:
-    build:
-      context: ../container/phppgadmin
-      dockerfile: Dockerfile
-    image: ${COMPOSE_PROJECT_NAME}_phppgadmin
-    container_name: ${COMPOSE_PROJECT_NAME}_phppgadmin
-    ports:
-      - "30011:8080"
-    links:
-      - postgres:postgres
-    environment:
-      DATABASE_HOST: postgres
+  #phppgadmin:
+  #  build:
+  #    context: ../container/phppgadmin
+  #    dockerfile: Dockerfile
+  #  image: ${COMPOSE_PROJECT_NAME}_phppgadmin
+  #  container_name: ${COMPOSE_PROJECT_NAME}_phppgadmin
+  #  ports:
+  #    - "30011:8080"
+  #  links:
+  #    - postgres:postgres
+  #  environment:
+  #    DATABASE_HOST: postgres
