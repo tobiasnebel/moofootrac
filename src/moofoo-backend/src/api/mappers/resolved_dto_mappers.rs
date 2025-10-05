@@ -1,31 +1,35 @@
 use chrono::{DateTime, Utc};
-use models::models::MooFooLogDto;
+use models::models::MooFooLogGetDto;
+use models::models::MooFooLogPostDto;
 use sea_orm::{ActiveValue::NotSet, Set};
 
+use crate::api::handlers::WithResolvedUserName;
 use crate::persistence::entities::moofoolog;
 
-impl TryFrom<MooFooLogDto> for moofoolog::ActiveModel {
+impl TryFrom<WithResolvedUserName<MooFooLogPostDto>> for moofoolog::ActiveModel {
     type Error = String;
 
-    fn try_from(value: MooFooLogDto) -> Result<Self, Self::Error> {
+    fn try_from(value: WithResolvedUserName<MooFooLogPostDto>) -> Result<Self, Self::Error> {
         Ok(moofoolog::ActiveModel {
             id: NotSet,
-            timestamp: Set(parse_timestamp_string_to_date_time_utc(value.timestamp)?),
-            user: Set(value.user_name),
-            mood: Set(value.mood),
-            food1: Set(value.food1.unwrap_or("N/A".to_string())),
-            food1_time: Set(value.food1_time.unwrap_or("N/A".to_string())),
-            food2: Set(value.food2.unwrap_or("N/A".to_string())),
-            food2_time: Set(value.food2_time.unwrap_or("N/A".to_string())),
+            timestamp: Set(parse_timestamp_string_to_date_time_utc(
+                value.data.timestamp,
+            )?),
+            user_name: Set(value.user_name),
+            mood: Set(value.data.mood),
+            food1: Set(value.data.food1.unwrap_or("N/A".to_string())),
+            food1_time: Set(value.data.food1_time.unwrap_or("N/A".to_string())),
+            food2: Set(value.data.food2.unwrap_or("N/A".to_string())),
+            food2_time: Set(value.data.food2_time.unwrap_or("N/A".to_string())),
         })
     }
 }
 
-impl From<&moofoolog::Model> for MooFooLogDto {
+impl From<&moofoolog::Model> for MooFooLogGetDto {
     fn from(value: &moofoolog::Model) -> Self {
-        MooFooLogDto {
+        MooFooLogGetDto {
             timestamp: value.timestamp.to_rfc3339(),
-            user_name: "THE_USER".to_string(),
+            user_name: value.user_name.to_owned(),
             mood: value.mood.to_owned(),
             food1: Some(value.food1.to_owned()),
             food1_time: Some(value.food1_time.to_owned()),

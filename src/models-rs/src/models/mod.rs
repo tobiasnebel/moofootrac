@@ -13,5 +13,7 @@
 #![allow(clippy::to_string_trait_impl)]
 #![allow(clippy::new_without_default)]
 
-pub mod moo_foo_log_dto;
-pub use self::moo_foo_log_dto::MooFooLogDto;
+pub mod moo_foo_log_get_dto;
+pub use self::moo_foo_log_get_dto::MooFooLogGetDto;
+pub mod moo_foo_log_post_dto;
+pub use self::moo_foo_log_post_dto::MooFooLogPostDto;

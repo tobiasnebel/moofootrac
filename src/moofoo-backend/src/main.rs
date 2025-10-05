@@ -17,6 +17,11 @@ use sea_orm_migration::MigratorTrait;
 use tokio::net::TcpListener;
 use tracing::init_tracing;
 
+///
+/// The name of our app.
+///
+pub const APP_NAME: &str = "moofoolog";
+
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long, default_value_t = String::from("config/default"))]
@@ -47,7 +52,7 @@ async fn main() {
 
     // initialize AppMetrics
     let metric_handle = PrometheusBuilder::new()
-        .add_global_label("app", "alertservice-rs")
+        .add_global_label("app", APP_NAME)
         .install_recorder()
         .expect("Failed to initialize prometheus metric handle");
     let app_metrics = AppMetrics::init();

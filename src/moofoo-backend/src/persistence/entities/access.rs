@@ -4,18 +4,14 @@ use sea_orm_migration::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "moofoolog")]
+#[sea_orm(table_name = "access")]
 pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i64,
-    pub timestamp: DateTimeUtc,
+    pub created_timestamp: DateTimeUtc,
     pub user_name: String,
-    pub mood: String,
-    pub food1: String,
-    pub food1_time: String,
-    pub food2: String,
-    pub food2_time: String,
+    pub token: String,
 }
 
 impl ActiveModelBehavior for ActiveModel {}
@@ -24,14 +20,10 @@ impl ActiveModelBehavior for ActiveModel {}
 pub enum Relation {}
 
 #[derive(DeriveIden)]
-pub enum MooFooLog {
+pub enum Access {
     Table,
     Id,
-    Timestamp,
+    CreatedTimestamp,
     UserName,
-    Mood,
-    Food1,
-    Food1Time,
-    Food2,
-    Food2Time,
+    Token,
 }

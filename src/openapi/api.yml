@@ -31,7 +31,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MooFooLog'
+              $ref: '#/components/schemas/MooFooLogPost'
       responses:
         '201':
           description: Created
@@ -39,14 +39,14 @@ paths:
 components:
   schemas:
 
-    MooFooLog:
+    MooFooLogPost:
       type: object
       properties:
         timestamp:
           type: string
           format: date-time
-        userName:
-          type: string
+        # userName:       --> now comes via auth token in backend
+        #   type: string
         mood:
           type: string
         food1:
@@ -60,5 +60,16 @@ components:
         
       required:
         - timestamp
-        - userName
+        # - userName
         - mood
+
+    MooFooLogGet:
+      description: "GET"
+      allOf:
+        - $ref: "#/components/schemas/MooFooLogPost"
+        - type: object
+          properties:
+            userName:
+              type: string
+          required:
+            - userName

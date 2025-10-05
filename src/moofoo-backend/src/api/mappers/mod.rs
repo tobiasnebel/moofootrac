@@ -1,1 +1,1 @@
-pub mod dto_mappers;
+pub mod resolved_dto_mappers;

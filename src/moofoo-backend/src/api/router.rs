@@ -26,6 +26,7 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/hello", get(get_hello_handler))
         .route("/moofoolog", get(get_moofoologs))
         .route("/moofoolog", post(post_moofoolog))
+        .route("/metrics", get(|| async move { metric_handle.render() }))
         .with_state(state.clone())
         .layer(PrometheusMetricLayer::new());
 

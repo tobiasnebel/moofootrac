@@ -26,15 +26,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'alarmservice-rs'",
+            "name": "Debug executable 'moofoolog'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=alarmservice-rs",
-                    "--package=alarmservice-rs"
+                    "--bin=moofoolog",
+                    "--package=moofoolog"
                 ],
                 "filter": {
-                    "name": "alarmservice-rs",
+                    "name": "moofoolog",
                     "kind": "bin"
                 }
             },
@@ -44,16 +44,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'alarmservice-rs'",
+            "name": "Debug unit tests in executable 'moofoolog'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=alarmservice-rs",
-                    "--package=alarmservice-rs"
+                    "--bin=moofoolog",
+                    "--package=moofoolog"
                 ],
                 "filter": {
-                    "name": "alarmservice-rs",
+                    "name": "moofoolog",
                     "kind": "bin"
                 }
             },

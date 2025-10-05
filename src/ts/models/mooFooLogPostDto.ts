@@ -12,9 +12,8 @@
 
 
 
-export class MooFooLogDto {
+export class MooFooLogPostDto {
     'timestamp': string;
-    'userName': string;
     'mood': string;
     'food1'?: string;
     'food1Time'?: string;
@@ -27,11 +26,6 @@ export class MooFooLogDto {
         {
             "name": "timestamp",
             "baseName": "timestamp",
-            "type": "string"
-        },
-        {
-            "name": "userName",
-            "baseName": "userName",
             "type": "string"
         },
         {
@@ -61,7 +55,7 @@ export class MooFooLogDto {
         }    ];
 
     static getAttributeTypeMap() {
-        return MooFooLogDto.attributeTypeMap;
+        return MooFooLogPostDto.attributeTypeMap;
     }
 }
 
