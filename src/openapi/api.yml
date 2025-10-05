@@ -2,22 +2,22 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: Alarmservice Demo
- 
+
 paths:
   /hello:
     get:
       parameters:
-      - in: query
-        name: name
-        required: false
-        schema:
-          type: string
-          example: World
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+            example: World
       summary: A healthcheck endpoint
       responses:
         "200":
           description: OK
-  
+
   /moofoolog:
     get:
       summary: query all
@@ -31,20 +31,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MooFooLogPost'
+              $ref: "#/components/schemas/MooFooLogPost"
       responses:
-        '201':
+        "201":
           description: Created
 
 components:
   schemas:
-
     MooFooLogPost:
       type: object
       properties:
-        timestamp:
-          type: string
-          format: date-time
         # userName:       --> now comes via auth token in backend
         #   type: string
         mood:
@@ -57,7 +53,7 @@ components:
           type: string
         food2Time:
           type: string
-        
+
       required:
         - timestamp
         # - userName
@@ -69,7 +65,11 @@ components:
         - $ref: "#/components/schemas/MooFooLogPost"
         - type: object
           properties:
+            timestamp:
+              type: string
+              format: date-time
             userName:
               type: string
           required:
+            - timestamp
             - userName

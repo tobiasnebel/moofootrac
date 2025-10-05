@@ -22,9 +22,6 @@ use tsify_next::Tsify;
 #[derive(Tsify, Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 #[tsify(into_wasm_abi, from_wasm_abi)]
 pub struct MooFooLogPostDto {
-    #[serde(rename = "timestamp")]
-    
-    pub timestamp: String,
     #[serde(rename = "mood")]
     
     pub mood: String,
@@ -43,9 +40,8 @@ pub struct MooFooLogPostDto {
 }
 
 impl MooFooLogPostDto {
-    pub fn new(timestamp: String, mood: String) -> MooFooLogPostDto {
+    pub fn new(mood: String) -> MooFooLogPostDto {
         MooFooLogPostDto {
-            timestamp,
             mood,
             food1: None,
             food1_time: None,

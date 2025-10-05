@@ -13,7 +13,6 @@
 
 
 export class MooFooLogPostDto {
-    'timestamp': string;
     'mood': string;
     'food1'?: string;
     'food1Time'?: string;
@@ -23,11 +22,6 @@ export class MooFooLogPostDto {
     static discriminator: string | undefined = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "timestamp",
-            "baseName": "timestamp",
-            "type": "string"
-        },
         {
             "name": "mood",
             "baseName": "mood",

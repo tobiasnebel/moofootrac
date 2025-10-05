@@ -16,22 +16,17 @@
 * GET
 */
 export class MooFooLogGetDto {
-    'timestamp': string;
     'mood': string;
     'food1'?: string;
     'food1Time'?: string;
     'food2'?: string;
     'food2Time'?: string;
+    'timestamp': string;
     'userName': string;
 
     static discriminator: string | undefined = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "timestamp",
-            "baseName": "timestamp",
-            "type": "string"
-        },
         {
             "name": "mood",
             "baseName": "mood",
@@ -55,6 +50,11 @@ export class MooFooLogGetDto {
         {
             "name": "food2Time",
             "baseName": "food2Time",
+            "type": "string"
+        },
+        {
+            "name": "timestamp",
+            "baseName": "timestamp",
             "type": "string"
         },
         {

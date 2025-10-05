@@ -12,9 +12,7 @@ impl TryFrom<WithResolvedUserName<MooFooLogPostDto>> for moofoolog::ActiveModel 
     fn try_from(value: WithResolvedUserName<MooFooLogPostDto>) -> Result<Self, Self::Error> {
         Ok(moofoolog::ActiveModel {
             id: NotSet,
-            timestamp: Set(parse_timestamp_string_to_date_time_utc(
-                value.data.timestamp,
-            )?),
+            timestamp: Set(Utc::now()),
             user_name: Set(value.user_name),
             mood: Set(value.data.mood),
             food1: Set(value.data.food1.unwrap_or("N/A".to_string())),
@@ -41,6 +39,7 @@ impl From<&moofoolog::Model> for MooFooLogGetDto {
 
 // === UTILS ===
 
+#[allow(unused)]
 pub fn parse_timestamp_string_to_date_time_utc(
     timestamp_str: String,
 ) -> Result<chrono::DateTime<Utc>, String> {

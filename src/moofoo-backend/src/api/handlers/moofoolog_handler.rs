@@ -43,20 +43,40 @@ pub async fn get_moofoologs(
     headers: HeaderMap,
     state: State<AppState>,
 ) -> Result<(StatusCode, Json<MooFooLogPage>), CustomError> {
+    let db = state.0.conn;
+    let metrics = state.0.metrics;
+
     let token = headers
         .get(TOKEN_HEADER_NAME)
-        .ok_or(CustomError::Unauthorized("Missing token".to_string()))?
+        .ok_or(CustomError::Unauthorized("Missing token".to_string()))
+        // inspect this here to log 'uninformed' access attempts
+        .inspect_err(|_e| {
+            warn!("Missing token: {_e:?}");
+            metrics.missing_token_counter.increment(1)
+        })?
         .to_str()
-        .map_err(|_e| CustomError::Unauthorized("Invalid token".to_string()))?
+        .map_err(|_e| CustomError::Unauthorized("Invalid token".to_string()))
+        // inspect this here to log 'uninformed' access attempts
+        .inspect_err(|_e| {
+            warn!("Invalid token: {_e:?}");
+            metrics.invalid_token_counter.increment(1)
+        })?
         .to_string();
-    let user_name = get_user_name_from_token(&state.conn, token).await?;
+    let user_name = get_user_name_from_token(&db, token)
+        .await
+        // inspect this here to log successful access attempts
+        .inspect(|_u| {
+            warn!("Successful login of user: {_u:?}");
+            metrics.successful_login_counter.increment(1)
+        })?;
 
+    // === "AUTH" ===
     let page_size = q.page_size.unwrap_or(10);
     let page = q.page.unwrap_or(0);
     let res = moofoolog::Entity::find()
         .filter(Column::UserName.eq(user_name)) // only get logs for the user behind our token.
         .into_model::<moofoolog::Model>()
-        .paginate(&state.conn, page_size)
+        .paginate(&db, page_size)
         .fetch_page(page)
         .await?
         .iter()

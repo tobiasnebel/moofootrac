@@ -25,6 +25,7 @@ pub enum Relation {}
 
 #[derive(DeriveIden)]
 pub enum MooFooLog {
+    #[sea_orm(iden = "moofoolog")]
     Table,
     Id,
     Timestamp,
