@@ -9,7 +9,7 @@ logging:
     - moofoolog=debug
 
 postgres:
-  host: "postgres"
+  host: "localhost"
   port: 20011
   user: "demo"
   password: "demo"

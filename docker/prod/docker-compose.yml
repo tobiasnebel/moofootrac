@@ -1,6 +1,10 @@
+## networks
+# networks:
+  # moofoolog_net:
+
 ## VOLUMES
 volumes:
-  postgres_data:
+  postgres_data_moofoolog:
     # assume someone created the volume for us, fail otherwise
     external: true
 
@@ -14,10 +18,19 @@ services:
       - POSTGRES_DB=moofoolog_postgres
       - POSTGRES_USER=demo
       - POSTGRES_PASSWORD=demo
+      - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "20011:5432"
+    # networks:
+    #   - moofoolog_net
     volumes:
-      - postgres_data:/var/lib/postgresql/data/pgdata
+      - postgres_data_moofoolog:/var/lib/postgresql/data/pgdata
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
   
   # app (backend + frontend)
   moofoolog_app:
@@ -28,6 +41,23 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_app
     ports:
       - "9011:9011"
+    # networks:
+    #   - moofoolog_net
+    links:
+      - postgres:postgres
+    environment:
+      - RUST_BACKTRACE=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    restart: unless-stopped
+    volumes:
+      - ../../config/default.yml:/moofoolog/config/default.yml
+      - ../../config/dev.yml:/moofoolog/config/dev.yml
+    depends_on:
+        - postgres
 
   # phppgadmin
   #phppgadmin:

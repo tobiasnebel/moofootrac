@@ -26,7 +26,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'moofoolog'",
+            "name": "Debug executable 'moofoolog' [dev]",
             "cargo": {
                 "args": [
                     "build",
@@ -38,6 +38,25 @@
                     "kind": "bin"
                 }
             },
+            "args": ["--config=config/dev.yml"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'moofoolog' [default]",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=moofoolog",
+                    "--package=moofoolog"
+                ],
+                "filter": {
+                    "name": "moofoolog",
+                    "kind": "bin"
+                }
+            },
+            // "args": ["--config=config/default.yml"],
             "args": [],
             "cwd": "${workspaceFolder}"
         },
