@@ -33,7 +33,7 @@ const AppRoutes = () => {
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/app">
       <AuthProvider>
         <div className="App">
           <Toaster position="top-center" reverseOrder={false} />
