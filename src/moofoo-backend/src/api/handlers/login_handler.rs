@@ -1,9 +1,10 @@
 use axum::{
+    Json,
     extract::{Query, State},
     http::StatusCode,
 };
 use sea_orm::{ColumnTrait, EntityTrait, QueryFilter};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     api::{errors::CustomError, router::AppState},
@@ -16,10 +17,16 @@ pub struct QueryParams {
     auth: Option<String>,
 }
 
+#[derive(Serialize)]
+pub struct ResponseData {
+    #[serde(rename = "token")]
+    token: String,
+}
+
 pub async fn get_login_handler(
     Query(q): Query<QueryParams>,
     _state: State<AppState>,
-) -> Result<(StatusCode, String), CustomError> {
+) -> Result<(StatusCode, Json<ResponseData>), CustomError> {
     // FIXME: retrieve debug_token with actual credentials
     if let Some(_auth) = q.auth
         && _auth.eq(&"foobar4223".to_string())
@@ -34,7 +41,7 @@ pub async fn get_login_handler(
                 )
             })?;
 
-        Ok((StatusCode::OK, entry.token))
+        Ok((StatusCode::OK, Json(ResponseData { token: entry.token })))
     } else {
         Err(CustomError::Unauthorized("moo".to_string()))
     }
