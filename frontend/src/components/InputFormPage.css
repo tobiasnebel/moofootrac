@@ -12,19 +12,21 @@
     font-size: 2.5em;
     font-weight: bold;
     align-self: flex-start;
+    color: white;
 }
 
 .question {
     align-self: flex-start;
     margin-top: 0;
     margin-bottom: 20px;
+    color: white;
 }
 
 .radio-group {
     display: flex;
     justify-content: space-around;
     width: 100%;
-    margin-bottom: 20px;
+    margin: 10px 0 20px 0;
 }
 
 .radio-option {
@@ -32,19 +34,19 @@
     flex-direction: column;
     align-items: center;
     color: white;
+    cursor: pointer;
 }
 
 .radio-option input[type="radio"] {
     appearance: none;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     margin: 0;
     font: inherit;
     color: currentColor;
-    width: 1.5em;
-    height: 1.5em;
-    border: 0.15em solid currentColor;
+    width: 2em;
+    height: 2em;
+    border: none;
     border-radius: 50%;
-    transform: translateY(-0.075em);
     display: grid;
     place-content: center;
     margin-bottom: 10px;
@@ -52,12 +54,12 @@
 
 .radio-option input[type="radio"]::before {
     content: "";
-    width: 0.8em;
-    height: 0.8em;
+    width: 1.2em;
+    height: 1.2em;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em #673ab7;
+    background-color: #7e57c2;
 }
 
 .radio-option input[type="radio"]:checked::before {
@@ -66,7 +68,7 @@
 
 .input-section {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 20px;
@@ -76,6 +78,8 @@
 .input-section label {
     display: block;
     margin-bottom: 10px;
+    color: white;
+    font-weight: bold;
 }
 
 .input-section textarea {
@@ -87,11 +91,30 @@
     box-sizing: border-box;
     background-color: white;
     resize: none;
+    font-family: inherit;
+    font-size: 1em;
+}
+
+.submit-button {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50px;
+    color: #673ab7;
+    padding: 20px 0;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    margin: 20px 0;
+    cursor: pointer;
+    font-weight: bold;
+    width: 80%;
 }
 
 .footer {
     text-align: center;
     margin-top: 20px;
+    color: white;
 }
 
 .footer p {
