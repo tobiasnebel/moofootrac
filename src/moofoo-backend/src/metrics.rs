@@ -4,7 +4,7 @@ use axum_prometheus::metrics::{Counter, counter};
 pub struct AppMetrics {
     pub invalid_token_counter: Counter,
     pub missing_token_counter: Counter,
-    pub successful_login_counter: Counter,
+    pub valid_token_counter: Counter,
 }
 
 impl AppMetrics {
@@ -12,13 +12,13 @@ impl AppMetrics {
         // initialize metrics
         let invalid_token_counter = counter!("invalid_token_counter");
         let missing_token_counter = counter!("missing_token_counter");
-        let successful_login_counter = counter!("successful_login_counter");
+        let valid_token_counter = counter!("valid_token_counter");
 
         // initialize AppMetrics
         Self {
             invalid_token_counter,
             missing_token_counter,
-            successful_login_counter,
+            valid_token_counter,
         }
     }
 }
