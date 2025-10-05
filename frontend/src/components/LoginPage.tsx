@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
     try {
       // The user specified the endpoint as "POST /login?auth=xxx"
       // I'll assume 'xxx' is the password. The username is not used in the endpoint.
-      const response = await axios.post(`http://127.0.0.1:9011/login?auth=${password}`);
+      const response = await axios.get(`http://127.0.0.1:9011/login?auth=${password}`);
 
       if (response.data && response.data.token) {
         login(response.data.token);
