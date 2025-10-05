@@ -1,4 +1,3 @@
-pub mod login_handler;
 pub mod hello_handler;
 pub mod moofoolog_handler;
 

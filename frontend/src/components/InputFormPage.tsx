@@ -72,7 +72,7 @@ const InputFormPage: React.FC = () => {
     }
 
     try {
-      await axios.post('http://127.0.0.1:9011/log', apiPayload, {
+      await axios.post('/api/log', apiPayload, {
         headers: {
           'MyToken': token,
         },
