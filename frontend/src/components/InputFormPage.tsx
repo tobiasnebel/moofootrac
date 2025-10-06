@@ -23,7 +23,7 @@ const LogoutIcon = () => (
 );
 
 const InputFormPage: React.FC = () => {
-  const { token, logout } = useAuth();
+  const { token, userName, logout } = useAuth();
   const [mood, setMood] = useState('');
   const [food1, setFood1] = useState('');
   const [time1, setTime1] = useState('');
@@ -93,7 +93,7 @@ const InputFormPage: React.FC = () => {
         </button>
       </div>
       <form className="form-container" onSubmit={handleSubmit}>
-        <h2 className="greeting">Hi Sven.</h2>
+        <h2 className="greeting">Hi {userName}</h2>
         <p className="question">Wie geht's dir?</p>
 
         {/* Mood Radio Group */}

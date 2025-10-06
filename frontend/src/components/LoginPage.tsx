@@ -14,12 +14,21 @@ const LoginPage: React.FC = () => {
     const loadingToast = toast.loading('Logging in...');
 
     try {
-      // The user specified the endpoint as "POST /login?auth=xxx"
-      // I'll assume 'xxx' is the password. The username is not used in the endpoint.
-      const response = await axios.get(`/api/login?auth=${password}`);
+      // Base64
+      const credentials = btoa(`${username}:${password}`);
+      // Header
+      const authHeader = `Basic ${credentials}`;
+
+      // OLD: // const response = await axios.get(`/api/login?auth=${password}`);
+      // NEW
+      const response = await axios.get('/api/login', {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
 
       if (response.data && response.data.token) {
-        login(response.data.token);
+        login(response.data.token, response.data.userName);
         toast.success('Login successful!', { id: loadingToast });
       } else {
         // Handle cases where the response does not contain a token
