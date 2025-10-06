@@ -1,0 +1,15 @@
+{
+    "page": 0,
+    "page_size": 10,
+    "data": [
+        {
+            "mood": "Schlecht",
+            "food1": "nutella",
+            "food1Time": "",
+            "food2": "nüschd",
+            "food2Time": "Morgen",
+            "timestamp": "2025-10-06T10:49:42.040001+00:00",
+            "userId": "debug_user"
+        }
+    ]
+}
