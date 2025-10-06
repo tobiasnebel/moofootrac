@@ -1,6 +1,6 @@
 use axum::{
     Router,
-    routing::{get, post},
+    routing::{delete, get, post},
 };
 
 use axum_prometheus::{PrometheusMetricLayer, metrics_exporter_prometheus::PrometheusHandle};
@@ -13,7 +13,7 @@ use crate::metrics::AppMetrics;
 use super::handlers::{
     hello_handler::hello_handler as get_hello_handler,
     login_handler::get_login_handler,
-    moofoolog_handler::{get_moofoologs, post_moofoolog},
+    moofoolog_handler::{delete_moofoolog, get_moofoologs, post_moofoolog},
 };
 
 #[derive(Clone)]
@@ -30,6 +30,7 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/api/login", get(get_login_handler))
         .route("/api/moofoolog", get(get_moofoologs))
         .route("/api/moofoolog", post(post_moofoolog))
+        .route("/api/moofoolog/:id", delete(delete_moofoolog))
         .route(
             "/api/metrics",
             get(|| async move { metric_handle.render() }),
@@ -40,7 +41,7 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
             get(|request| async {
                 let service = ServeDir::new("./dist");
                 service
-                    .fallback(ServeFile::new("./dist/index.html"))  // doesnt work either
+                    .fallback(ServeFile::new("./dist/index.html")) // doesnt work either
                     .oneshot(request)
                     .await
             }),

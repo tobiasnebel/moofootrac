@@ -23,6 +23,7 @@ export class MooFooLogGetDto {
     'food2Time'?: string;
     'timestamp': string;
     'userId': string;
+    'id': string;
 
     static discriminator: string | undefined = undefined;
 
@@ -60,6 +61,11 @@ export class MooFooLogGetDto {
         {
             "name": "userId",
             "baseName": "userId",
+            "type": "string"
+        },
+        {
+            "name": "id",
+            "baseName": "id",
             "type": "string"
         }    ];
 

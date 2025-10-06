@@ -1,8 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import './InputFormPage.css';
+
+const MenuIcon = () => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+);
 
 const LogoutIcon = () => (
   <svg
@@ -23,6 +42,7 @@ const LogoutIcon = () => (
 );
 
 const InputFormPage: React.FC = () => {
+  const navigate = useNavigate();
   const { token, userName, logout } = useAuth();
   const [mood, setMood] = useState('');
   const [food1, setFood1] = useState('');
@@ -88,6 +108,9 @@ const InputFormPage: React.FC = () => {
   return (
     <>
       <div className="header">
+        <button onClick={() => navigate('/entries')} className="menu-button">
+            <MenuIcon />
+        </button>
         <button onClick={logout} className="logout-button">
           <LogoutIcon />
         </button>
