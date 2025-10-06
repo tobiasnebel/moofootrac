@@ -93,7 +93,7 @@ const InputFormPage: React.FC = () => {
         </button>
       </div>
       <form className="form-container" onSubmit={handleSubmit}>
-        <h2 className="greeting">Hi {userName}.</h2>
+        <h2 className="greeting">Hi {userName}</h2>
         <p className="question">Wie geht's dir?</p>
 
         {/* Mood Radio Group */}

@@ -15,7 +15,8 @@ impl MigrationTrait for Migration {
         // ################
         moofoolog_user::Entity::insert(moofoolog_user::ActiveModel {
             id: NotSet,
-            user_name: Set("debug_user".to_string()),
+            user_id: Set("debug_user".to_string()),
+            user_name: Set(Some("Dummy Debug user".to_string())),
             password: Set("foobar4223".to_string()),
         })
         .exec(manager.get_connection())
@@ -23,7 +24,8 @@ impl MigrationTrait for Migration {
 
         moofoolog_user::Entity::insert(moofoolog_user::ActiveModel {
             id: NotSet,
-            user_name: Set("sven".to_string()),
+            user_id: Set("sven".to_string()),
+            user_name: Set(Some("Sveniiii!".to_string())),
             password: Set("foobar4223".to_string()),
         })
         .exec(manager.get_connection())

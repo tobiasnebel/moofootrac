@@ -9,7 +9,8 @@ pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i64,
-    pub user_name: String,
+    pub user_id: String,
+    pub user_name: Option<String>,
     pub password: String,
 }
 
@@ -23,6 +24,7 @@ pub enum MooFooLogUser {
     #[sea_orm(iden = "moofoolog_user")]
     Table,
     Id,
+    UserId,
     UserName,
     Password,
 }

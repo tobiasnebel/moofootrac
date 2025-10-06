@@ -28,7 +28,7 @@ const LoginPage: React.FC = () => {
       });
 
       if (response.data && response.data.token) {
-        login(response.data.token, username);
+        login(response.data.token, response.data.userName);
         toast.success('Login successful!', { id: loadingToast });
       } else {
         // Handle cases where the response does not contain a token
