@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import './EntryListPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -26,19 +26,20 @@ const EntryListPage: React.FC = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
-  const auth = useContext(AuthContext);
+  // const { token, userName, logout } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEntries = async () => {
-      if (!auth?.token) {
+      if (!token) {
         toast.error('Authentication token not found.');
         return;
       }
       try {
         const response = await axios.get<ApiResponse>(`/api/moofoolog?page=${page}`, {
           headers: {
-            'MyToken': auth.token,
+            'MooFoo-Token': token,
           },
         });
         setEntries(response.data.data);
@@ -50,10 +51,10 @@ const EntryListPage: React.FC = () => {
     };
 
     fetchEntries();
-  }, [auth?.token, page]);
+  }, [token, page]);
 
   const handleDelete = async (id: number) => {
-    if (!auth?.token) {
+    if (!token) {
       toast.error('Authentication token not found.');
       return;
     }
@@ -64,7 +65,7 @@ const EntryListPage: React.FC = () => {
     try {
       await axios.delete(`/api/moofoolog/${id}`, {
         headers: {
-          'MyToken': auth.token,
+          'MooFoo-Token': token,
         },
       });
       toast.success('Entry deleted successfully.', { id: 'delete-toast' });
