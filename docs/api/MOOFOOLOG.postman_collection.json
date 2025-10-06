@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "0fe5c2f3-9a0a-435b-beec-14524181e335",
+		"name": "MOOFOOLOG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "779105",
+		"_collection_link": "https://sciota.postman.co/workspace/sciota-Workspace~1226b122-1659-4151-a845-68200e005581/collection/779105-0fe5c2f3-9a0a-435b-beec-14524181e335?action=share&source=collection_link&creator=779105"
+	},
+	"item": [
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/hello",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login (success)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/login?auth=foobar4223",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "auth",
+							"value": "foobar4223"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login (bad request)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/login?auuuuuth=foobar4223",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "auuuuuth",
+							"value": "foobar4223"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login (bad auth)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/login?auth=bad",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "auth",
+							"value": "bad"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/metrics",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "moofoolog (invalid token)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "invalid_token",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "moofoolog (no token)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "moofoolog (debug token)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "debug_token",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST moofoolog (missing token)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "debug_token",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST moofoolog (invalid token)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "invalid_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST moofoolog (debug token)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "debug_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST moofoolog_complete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "debug_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"nochmehrmäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST moofoolog_incomplete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "MooFoo-Token",
+						"value": "debug_token",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/moofoolog",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"moofoolog"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
