@@ -47,7 +47,50 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "login (success)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/login?auth=foobar4223",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "foobar4223"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "23"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:03:55 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"debug_token\"\n}"
+				}
+			]
 		},
 		{
 			"name": "login (bad request)",
@@ -71,7 +114,50 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "login (bad request)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/login?auuuuuth=foobar4223",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "auuuuuth",
+									"value": "foobar4223"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "15"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:11 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"moo\"\n}"
+				}
+			]
 		},
 		{
 			"name": "login (bad auth)",
@@ -95,7 +181,50 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "login (bad auth)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/login?auth=bad",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "auth",
+									"value": "bad"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "15"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:15 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"moo\"\n}"
+				}
+			]
 		},
 		{
 			"name": "metrics",
@@ -137,7 +266,50 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "moofoolog (invalid token)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "invalid_token",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:28 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid token\"\n}"
+				}
+			]
 		},
 		{
 			"name": "moofoolog (no token)",
@@ -155,7 +327,44 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "moofoolog (no token)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:31 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Missing token\"\n}"
+				}
+			]
 		},
 		{
 			"name": "moofoolog (debug token)",
@@ -179,7 +388,50 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "moofoolog (debug token)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "debug_token",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "345"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:40 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"page\": 0,\n    \"page_size\": 10,\n    \"data\": [\n        {\n            \"mood\": \"mäh\",\n            \"food1\": \"müsli\",\n            \"food1Time\": \"zeitig\",\n            \"food2\": \"nutella\",\n            \"food2Time\": \"mittag\",\n            \"timestamp\": \"2025-10-05T23:22:33.811437+00:00\",\n            \"userName\": \"debug_user\"\n        },\n        {\n            \"mood\": \"Mäh\",\n            \"food1\": \"gh\",\n            \"food1Time\": \"\",\n            \"food2\": \"N/A\",\n            \"food2Time\": \"N/A\",\n            \"timestamp\": \"2025-10-05T23:24:33.423030+00:00\",\n            \"userName\": \"debug_user\"\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "POST moofoolog (missing token)",
@@ -213,7 +465,60 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "POST moofoolog (missing token)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "debug_token",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:46 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Missing token\"\n}"
+				}
+			]
 		},
 		{
 			"name": "POST moofoolog (invalid token)",
@@ -246,7 +551,59 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "POST moofoolog (invalid token)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "invalid_token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "content-length",
+							"value": "25"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:51 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid token\"\n}"
+				}
+			]
 		},
 		{
 			"name": "POST moofoolog (debug token)",
@@ -279,7 +636,55 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "POST moofoolog (debug token)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "debug_token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "0"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:04:59 GMT"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
 		},
 		{
 			"name": "POST moofoolog_complete",
@@ -312,7 +717,55 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "POST moofoolog_complete",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "debug_token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"nochmehrmäh\",\r\n    // optional:\r\n    //\"timestamp\": \"1759677278000\",\r\n    \"food1\": \"müsli\",\r\n    \"food1Time\": \"zeitig\",\r\n    \"food2\": \"nutella\",\r\n    \"food2Time\":\"mittag\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "0"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:05:01 GMT"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
 		},
 		{
 			"name": "POST moofoolog_incomplete",
@@ -345,7 +798,55 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "POST moofoolog_incomplete",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "MooFoo-Token",
+								"value": "debug_token",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // mandatory:\r\n    \"mood\": \"mäh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/moofoolog",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"moofoolog"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "content-length",
+							"value": "0"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 06 Oct 2025 07:05:03 GMT"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
 		}
 	]
 }
