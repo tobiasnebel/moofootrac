@@ -1,11 +1,12 @@
 use axum::{
     Json,
-    extract::{Query, State},
+    extract::{Path, Query, State},
     http::{HeaderMap, StatusCode},
 };
 use models::models::{MooFooLogGetDto, MooFooLogPostDto};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, PaginatorTrait, QueryFilter,
+    QueryOrder,
 };
 use serde::{Deserialize, Serialize};
 use tracing::{info, warn};
@@ -19,7 +20,7 @@ use crate::{
     },
 };
 
-use super::{WithResolvedUserId, TOKEN_HEADER_NAME};
+use super::{TOKEN_HEADER_NAME, WithResolvedUserId};
 
 #[derive(Deserialize)]
 pub struct LogQueryParams {
@@ -34,8 +35,6 @@ pub struct MooFooLogPage {
     page_size: u64,
     data: Vec<MooFooLogGetDto>,
 }
-
-
 
 /// Checks:
 ///   - presence of token header
@@ -92,6 +91,7 @@ pub async fn get_moofoologs(
     let page = q.page.unwrap_or(0);
     let res = moofoolog::Entity::find()
         .filter(Column::UserId.eq(user_id)) // only get logs for the user behind our token.
+        .order_by_desc(Column::Timestamp)
         .into_model::<moofoolog::Model>()
         .paginate(&db, page_size)
         .fetch_page(page)
@@ -135,4 +135,38 @@ pub async fn post_moofoolog(
     info!("Sucessfully saved log for user '{user_name}'");
 
     Ok(StatusCode::CREATED)
+}
+
+///
+/// DELETE handler
+///
+pub async fn delete_moofoolog(
+    Path(id): Path<String>,
+    headers: HeaderMap,
+    state: State<AppState>,
+) -> Result<StatusCode, CustomError> {
+    let db = state.0.conn;
+    let metrics = state.0.metrics;
+
+    // === "AUTH" ===
+    let user_id = check_token("DELETE", headers, metrics, &db).await?;
+
+    let id_parsed: i64 = id
+        .parse()
+        .map_err(|_e| CustomError::BadRequest("Illegal id".to_string()))?;
+
+    let res = moofoolog::Entity::delete_many()
+        .filter(moofoolog::Column::Id.eq(id_parsed))
+        .filter(moofoolog::Column::UserId.eq(user_id))
+        .exec(&db)
+        .await?;
+
+    assert!(
+        res.rows_affected < 2,
+        "whenever more than one entry has been deleted here, our where/filter contidion is faulty!"
+    );
+
+    warn!("Deleted {} entrie(s)", res.rows_affected);
+
+    Ok(StatusCode::OK)
 }

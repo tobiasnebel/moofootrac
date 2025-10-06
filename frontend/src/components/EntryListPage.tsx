@@ -56,6 +56,26 @@ const LogoutIcon = () => (
   </svg>
 );
 
+const DeleteIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    <path d="M10 11v6" />
+    <path d="M14 11v6" />
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+  </svg>
+);
+
 const EntryListPage: React.FC = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [page, setPage] = useState(0);
@@ -111,16 +131,8 @@ const EntryListPage: React.FC = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate('/');
-  };
-
   return (
     <div className="entry-list-page">
-      {/* <div className="entry-list-header">
-        <h1>Entries</h1>
-        <button onClick={handleBack} className="back-button">Back to Input</button>
-      </div> */}
       
       <div className="header">
         <button onClick={() => navigate('/form')} className="menu-button">
@@ -142,7 +154,10 @@ const EntryListPage: React.FC = () => {
             <p><strong>Food 1:</strong> {entry.food1} ({entry.food1Time})</p>
             <p><strong>Food 2:</strong> {entry.food2} ({entry.food2Time})</p>
             <p><strong>Timestamp:</strong> {new Date(entry.timestamp).toLocaleString()}</p>
-            <button onClick={() => handleDelete(entry.id)} className="delete-button">Delete</button>
+            {/* <button onClick={() => handleDelete(entry.id)} className="delete-button">Delete</button> */}
+            <button onClick={() => handleDelete(entry.id)} className="delete-button">
+              <DeleteIcon />
+            </button>
           </div>
         ))}
       </div>

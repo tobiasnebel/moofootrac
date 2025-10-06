@@ -26,6 +26,7 @@ impl TryFrom<WithResolvedUserId<MooFooLogPostDto>> for moofoolog::ActiveModel {
 impl From<&moofoolog::Model> for MooFooLogGetDto {
     fn from(value: &moofoolog::Model) -> Self {
         MooFooLogGetDto {
+            id: value.id.to_owned().to_string(),
             timestamp: value.timestamp.to_rfc3339(),
             user_id: value.user_id.to_owned(),
             mood: value.mood.to_owned(),

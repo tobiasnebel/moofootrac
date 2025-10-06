@@ -44,11 +44,14 @@ pub struct MooFooLogGetDto {
     #[serde(rename = "userId")]
     
     pub user_id: String,
+    #[serde(rename = "id")]
+    
+    pub id: String,
 }
 
 impl MooFooLogGetDto {
     /// GET
-    pub fn new(mood: String, timestamp: String, user_id: String) -> MooFooLogGetDto {
+    pub fn new(mood: String, timestamp: String, user_id: String, id: String) -> MooFooLogGetDto {
         MooFooLogGetDto {
             mood,
             food1: None,
@@ -57,6 +60,7 @@ impl MooFooLogGetDto {
             food2_time: None,
             timestamp,
             user_id,
+            id,
         }
     }
 }
