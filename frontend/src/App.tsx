@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './components/LoginPage';
 import InputFormPage from './components/InputFormPage';
+import EntryListPage from './components/EntryListPage';
 import './App.css';
 
 const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
@@ -24,6 +25,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <InputFormPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/entries"
+        element={
+          <ProtectedRoute>
+            <EntryListPage />
           </ProtectedRoute>
         }
       />

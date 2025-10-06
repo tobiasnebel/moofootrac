@@ -19,6 +19,18 @@
     opacity: 0.8;
 }
 
+.menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+}
+
+.menu-button:hover {
+    opacity: 0.8;
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
