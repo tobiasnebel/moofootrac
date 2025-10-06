@@ -1,6 +1,8 @@
 use sea_orm_migration::prelude::*;
 
-use crate::persistence::entities::{access::Access, moofoolog::MooFooLog};
+use crate::persistence::entities::{
+    access::Access, moofoolog::MooFooLog, moofoolog_user::MooFooLogUser,
+};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -37,6 +39,30 @@ impl MigrationTrait for Migration {
             )
             .await?;
 
+        // create 'moofoolog_user' table
+        manager
+            .create_table(
+                Table::create()
+                    .if_not_exists()
+                    .table(MooFooLogUser::Table)
+                    .col(
+                        ColumnDef::new(MooFooLogUser::Id)
+                            .big_integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(
+                        ColumnDef::new(MooFooLogUser::UserName)
+                            .string()
+                            .unique_key()
+                            .not_null(),
+                    )
+                    .col(ColumnDef::new(MooFooLogUser::Password).string().not_null())
+                    .to_owned(),
+            )
+            .await?;
+
         // create 'access' table
         manager
             .create_table(
@@ -56,7 +82,12 @@ impl MigrationTrait for Migration {
                             .timestamp_with_time_zone()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(Access::UserName).string().unique_key().not_null())
+                    .col(
+                        ColumnDef::new(Access::UserName)
+                            .string()
+                            .unique_key()
+                            .not_null(),
+                    )
                     .col(ColumnDef::new(Access::Token).string().not_null())
                     .to_owned(),
             )

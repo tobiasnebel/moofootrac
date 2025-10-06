@@ -48,3 +48,4 @@ chrono = "0.4.38"
 axum-prometheus = { version = "0.7", features = [
     "metrics-exporter-prometheus",
 ] }
+base64 = "0.22.1"
