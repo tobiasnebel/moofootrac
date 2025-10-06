@@ -6,7 +6,7 @@ use axum::{
 use axum_prometheus::{PrometheusMetricLayer, metrics_exporter_prometheus::PrometheusHandle};
 use sea_orm::DatabaseConnection;
 use tower::ServiceExt;
-use tower_http::services::ServeDir;
+use tower_http::services::{ServeDir, ServeFile};
 
 use crate::metrics::AppMetrics;
 
@@ -30,15 +30,26 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/api/login", get(get_login_handler))
         .route("/api/moofoolog", get(get_moofoologs))
         .route("/api/moofoolog", post(post_moofoolog))
-        .route("/api/metrics", get(|| async move { metric_handle.render() }))
-        // >>> serve static frontend files
+        .route(
+            "/api/metrics",
+            get(|| async move { metric_handle.render() }),
+        )
+        // >>> serve static frontend files; doesnt redirect /app to index.html
         .nest_service(
             "/app",
             get(|request| async {
                 let service = ServeDir::new("./dist");
-                service.oneshot(request).await
+                service
+                    .fallback(ServeFile::new("./dist/index.html"))  // doesnt work either
+                    .oneshot(request)
+                    .await
             }),
         )
+        // CHATGPT, doesnt work:
+        // .nest_service(
+        //     "/app",
+        //     ServeDir::new("./dist").fallback(ServeFile::new("./dist/index.html")),
+        // )
         // <<<
         .with_state(state.clone())
         .layer(PrometheusMetricLayer::new());

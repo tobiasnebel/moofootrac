@@ -10,16 +10,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
 
   const login = (newToken: string) => {
     setToken(newToken);
-    // In a real app, you'd also save this to localStorage
+    localStorage.setItem('token', newToken);
   };
 
   const logout = () => {
     setToken(null);
-    // And clear it from localStorage
+    localStorage.removeItem('token');
   };
 
   const isLoggedIn = !!token;
