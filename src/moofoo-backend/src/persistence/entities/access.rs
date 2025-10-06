@@ -10,7 +10,7 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: i64,
     pub created_timestamp: DateTimeUtc,
-    pub user_name: String,
+    pub user_id: String,
     pub token: String,
 }
 
@@ -24,6 +24,6 @@ pub enum Access {
     Table,
     Id,
     CreatedTimestamp,
-    UserName,
+    UserId,
     Token,
 }

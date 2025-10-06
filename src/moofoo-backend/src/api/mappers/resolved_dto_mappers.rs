@@ -3,17 +3,17 @@ use models::models::MooFooLogGetDto;
 use models::models::MooFooLogPostDto;
 use sea_orm::{ActiveValue::NotSet, Set};
 
-use crate::api::handlers::WithResolvedUserName;
+use crate::api::handlers::WithResolvedUserId;
 use crate::persistence::entities::moofoolog;
 
-impl TryFrom<WithResolvedUserName<MooFooLogPostDto>> for moofoolog::ActiveModel {
+impl TryFrom<WithResolvedUserId<MooFooLogPostDto>> for moofoolog::ActiveModel {
     type Error = String;
 
-    fn try_from(value: WithResolvedUserName<MooFooLogPostDto>) -> Result<Self, Self::Error> {
+    fn try_from(value: WithResolvedUserId<MooFooLogPostDto>) -> Result<Self, Self::Error> {
         Ok(moofoolog::ActiveModel {
             id: NotSet,
             timestamp: Set(Utc::now()),
-            user_name: Set(value.user_name),
+            user_id: Set(value.user_id),
             mood: Set(value.data.mood),
             food1: Set(value.data.food1.unwrap_or("N/A".to_string())),
             food1_time: Set(value.data.food1_time.unwrap_or("N/A".to_string())),
@@ -27,7 +27,7 @@ impl From<&moofoolog::Model> for MooFooLogGetDto {
     fn from(value: &moofoolog::Model) -> Self {
         MooFooLogGetDto {
             timestamp: value.timestamp.to_rfc3339(),
-            user_name: value.user_name.to_owned(),
+            user_id: value.user_id.to_owned(),
             mood: value.mood.to_owned(),
             food1: Some(value.food1.to_owned()),
             food1_time: Some(value.food1_time.to_owned()),

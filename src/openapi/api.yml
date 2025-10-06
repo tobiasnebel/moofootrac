@@ -68,8 +68,8 @@ components:
             timestamp:
               type: string
               format: date-time
-            userName:
+            userId:
               type: string
           required:
             - timestamp
-            - userName
+            - userId

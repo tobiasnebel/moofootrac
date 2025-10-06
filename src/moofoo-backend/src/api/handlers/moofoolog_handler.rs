@@ -15,11 +15,11 @@ use crate::{
     metrics::AppMetrics,
     persistence::{
         entities::moofoolog::{self, ActiveModel, Column},
-        repositories::get_user_name_from_token,
+        repositories::get_user_id_from_token,
     },
 };
 
-use super::{WithResolvedUserName, TOKEN_HEADER_NAME};
+use super::{WithResolvedUserId, TOKEN_HEADER_NAME};
 
 #[derive(Deserialize)]
 pub struct LogQueryParams {
@@ -46,7 +46,7 @@ async fn check_token(
     headers: HeaderMap,
     metrics: AppMetrics,
     db: &DatabaseConnection,
-) -> Result<super::UserName, CustomError> {
+) -> Result<super::UserId, CustomError> {
     let token = headers
         .get(TOKEN_HEADER_NAME)
         .ok_or_else(|| CustomError::Unauthorized("Missing token".to_string()))
@@ -63,7 +63,7 @@ async fn check_token(
             metrics.invalid_token_counter.increment(1)
         })?
         .to_string();
-    let user_name = get_user_name_from_token(&db, token)
+    let user_name = get_user_id_from_token(&db, token)
         .await
         // inspect this here to log successful access attempts
         .inspect(|_u| {
@@ -86,12 +86,12 @@ pub async fn get_moofoologs(
     let metrics = state.0.metrics;
 
     // === "AUTH" ===
-    let user_name = check_token("GET", headers, metrics, &db).await?;
+    let user_id = check_token("GET", headers, metrics, &db).await?;
 
     let page_size = q.page_size.unwrap_or(10);
     let page = q.page.unwrap_or(0);
     let res = moofoolog::Entity::find()
-        .filter(Column::UserName.eq(user_name)) // only get logs for the user behind our token.
+        .filter(Column::UserId.eq(user_id)) // only get logs for the user behind our token.
         .into_model::<moofoolog::Model>()
         .paginate(&db, page_size)
         .fetch_page(page)
@@ -123,7 +123,7 @@ pub async fn post_moofoolog(
     // === "AUTH" ===
     let user_name = check_token("POST", headers, metrics, &db).await?;
 
-    let resolved = WithResolvedUserName::with_data_and_user(user_name.to_owned(), log_dto);
+    let resolved = WithResolvedUserId::with_data_and_user(user_name.to_owned(), log_dto);
 
     // === DB ===
     // map dto

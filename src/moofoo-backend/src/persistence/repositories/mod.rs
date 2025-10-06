@@ -6,7 +6,7 @@ use super::entities::access;
 
 pub type UserName = String;
 
-pub async fn get_user_name_from_token(
+pub async fn get_user_id_from_token(
     db_conn: &DatabaseConnection,
     token: UserName,
 ) -> Result<String, CustomError> {
@@ -16,7 +16,7 @@ pub async fn get_user_name_from_token(
         .await?;
 
     let res = match db_res {
-        Some(model) => Ok(model.user_name),
+        Some(model) => Ok(model.user_id),
         None => Err(CustomError::Unauthorized("Invalid token".to_string())),
     };
 

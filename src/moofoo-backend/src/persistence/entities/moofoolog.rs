@@ -10,7 +10,7 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: i64,
     pub timestamp: DateTimeUtc,
-    pub user_name: String,
+    pub user_id: String,
     pub mood: String,
     pub food1: String,
     pub food1_time: String,
@@ -29,7 +29,7 @@ pub enum MooFooLog {
     Table,
     Id,
     Timestamp,
-    UserName,
+    UserId,
     Mood,
     Food1,
     Food1Time,

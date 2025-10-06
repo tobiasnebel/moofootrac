@@ -29,7 +29,7 @@ impl MigrationTrait for Migration {
                             .timestamp_with_time_zone()
                             .not_null(),
                     )
-                    .col(ColumnDef::new(MooFooLog::UserName).string().not_null())
+                    .col(ColumnDef::new(MooFooLog::UserId).string().not_null())
                     .col(ColumnDef::new(MooFooLog::Mood).string().not_null())
                     .col(ColumnDef::new(MooFooLog::Food1).string().null())
                     .col(ColumnDef::new(MooFooLog::Food1Time).string().null())
@@ -84,7 +84,7 @@ impl MigrationTrait for Migration {
                             .not_null(),
                     )
                     .col(
-                        ColumnDef::new(Access::UserName)
+                        ColumnDef::new(Access::UserId)
                             .string()
                             .unique_key()
                             .not_null(),

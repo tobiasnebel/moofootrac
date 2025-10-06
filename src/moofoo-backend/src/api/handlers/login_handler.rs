@@ -80,7 +80,7 @@ pub async fn get_login_handler(
         // FIXME: refresh token here
         //
         let entry = access::Entity::find()
-            .filter(access::Column::UserName.eq(&user_db.user_id))
+            .filter(access::Column::UserId.eq(&user_db.user_id))
             .one(&db)
             .await?
             .ok_or_else(|| {
