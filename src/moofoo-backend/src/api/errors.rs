@@ -1,6 +1,10 @@
 use std::collections::HashMap;
 
-use axum::{http::StatusCode, response::IntoResponse, Json};
+use axum::{
+    Json,
+    http::{StatusCode, header::InvalidHeaderValue},
+    response::IntoResponse,
+};
 use serde_json::json;
 use tracing::warn;
 
@@ -61,5 +65,11 @@ impl From<sea_orm::DbErr> for CustomError {
 impl From<rust_xlsxwriter::XlsxError> for CustomError {
     fn from(error: rust_xlsxwriter::XlsxError) -> CustomError {
         CustomError::InternalServerError(format!("Excel export error: {}", error))
+    }
+}
+
+impl From<InvalidHeaderValue> for CustomError {
+    fn from(error: InvalidHeaderValue) -> CustomError {
+        CustomError::InternalServerError(format!("Header error: {}", error))
     }
 }

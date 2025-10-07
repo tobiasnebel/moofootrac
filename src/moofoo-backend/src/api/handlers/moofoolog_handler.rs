@@ -1,8 +1,10 @@
 use axum::{
-    http, Json,
+    Json,
     extract::{Path, Query, State},
+    http,
     http::{HeaderMap, StatusCode},
 };
+use chrono::Utc;
 use models::models::{MooFooLogGetDto, MooFooLogPostDto};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, PaginatorTrait, QueryFilter,
@@ -182,20 +184,26 @@ pub async fn get_moofoologs_export(
     let metrics = state.0.metrics;
 
     // === "AUTH" ===
-    let user_id = check_token("GET EXPORT", headers, metrics, &db).await?;
+    let user_id = check_token("EXPORT", headers, metrics, &db).await?;
 
-    let res = moofoolog::Entity::find()
-        .filter(Column::UserId.eq(user_id)) // only get logs for the user behind our token.
+    let count = moofoolog::Entity::find()
+        .filter(Column::UserId.eq(&user_id)) // only get logs for the user behind our token.
         .order_by_desc(Column::Timestamp)
         .into_model::<moofoolog::Model>()
-        .all(&db)
+        .count(&db)
         .await?;
-
-    if res.len() > 5000 {
+    if count > 5000 {
         return Err(CustomError::BadRequest(
             "Too many entries to export. Maximum is 5000.".to_string(),
         ));
     }
+
+    let res = moofoolog::Entity::find()
+        .filter(Column::UserId.eq(&user_id)) // only get logs for the user behind our token.
+        .order_by_desc(Column::Timestamp)
+        .into_model::<moofoolog::Model>()
+        .all(&db)
+        .await?;
 
     use rust_xlsxwriter::{Workbook, XlsxError};
     let mut workbook = Workbook::new();
@@ -234,6 +242,7 @@ pub async fn get_moofoologs_export(
         CustomError::InternalServerError(format!("Failed to create Excel file: {}", e))
     })?;
 
+    let now: String = Utc::now().format("%Y-%m-%dT%H-%M-%S").to_string();
     let headers = [
         (
             http::header::CONTENT_TYPE,
@@ -243,7 +252,9 @@ pub async fn get_moofoologs_export(
         ),
         (
             http::header::CONTENT_DISPOSITION,
-            http::HeaderValue::from_static("attachment; filename=\"moofoolog_export.xlsx\""),
+            http::HeaderValue::from_str(
+                format!("attachment; filename=\"moofoolog_export_{now}.xlsx\"").as_str(),
+            )?,
         ),
     ];
 
