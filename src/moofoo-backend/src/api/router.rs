@@ -13,7 +13,9 @@ use crate::metrics::AppMetrics;
 use super::handlers::{
     hello_handler::hello_handler as get_hello_handler,
     login_handler::get_login_handler,
-    moofoolog_handler::{delete_moofoolog, get_moofoologs, post_moofoolog},
+    moofoolog_handler::{
+        delete_moofoolog, get_moofoologs, get_moofoologs_export, post_moofoolog,
+    },
 };
 
 #[derive(Clone)]
@@ -29,6 +31,7 @@ pub fn router(state: AppState, metric_handle: PrometheusHandle) -> Router {
         .route("/api/hello", get(get_hello_handler))
         .route("/api/login", get(get_login_handler))
         .route("/api/moofoolog", get(get_moofoologs))
+        .route("/api/moofoolog/export", get(get_moofoologs_export))
         .route("/api/moofoolog", post(post_moofoolog))
         .route("/api/moofoolog/:id", delete(delete_moofoolog))
         .route(

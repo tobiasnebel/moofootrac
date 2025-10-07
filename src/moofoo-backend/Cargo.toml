@@ -49,3 +49,6 @@ axum-prometheus = { version = "0.7", features = [
     "metrics-exporter-prometheus",
 ] }
 base64 = "0.22.1"
+
+# add 'rust_xlsxwriter' to generate excel files
+rust_xlsxwriter = "0.61.0"

@@ -57,3 +57,9 @@ impl From<sea_orm::DbErr> for CustomError {
         CustomError::InternalServerError(format!("DB Error: {}", error))
     }
 }
+
+impl From<rust_xlsxwriter::XlsxError> for CustomError {
+    fn from(error: rust_xlsxwriter::XlsxError) -> CustomError {
+        CustomError::InternalServerError(format!("Excel export error: {}", error))
+    }
+}

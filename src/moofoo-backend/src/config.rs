@@ -51,10 +51,18 @@ impl AppConfig {
 #[cfg(test)]
 mod tests {
     use super::AppConfig;
+    use std::path::PathBuf;
 
     #[test]
     fn parse_config() {
-        AppConfig::parse("config/default".to_string()).expect("should parse config without file extension");
-        AppConfig::parse("config/default.yml".to_string()).expect("should parse config with file extension");
+        let base_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+
+        let mut path_no_ext = base_path.clone();
+        path_no_ext.push("../../config/default");
+        AppConfig::parse(path_no_ext.to_str().unwrap().to_string()).expect("should parse config without file extension");
+
+        let mut path_with_ext = base_path.clone();
+        path_with_ext.push("../../config/default.yml");
+        AppConfig::parse(path_with_ext.to_str().unwrap().to_string()).expect("should parse config with file extension");
     }
 }
