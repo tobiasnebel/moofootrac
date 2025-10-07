@@ -1,8 +1,10 @@
 use axum::{
     Json,
     extract::{Path, Query, State},
+    http,
     http::{HeaderMap, StatusCode},
 };
+use chrono::Utc;
 use models::models::{MooFooLogGetDto, MooFooLogPostDto};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, PaginatorTrait, QueryFilter,
@@ -169,4 +171,92 @@ pub async fn delete_moofoolog(
     warn!("Deleted {} entrie(s)", res.rows_affected);
 
     Ok(StatusCode::OK)
+}
+
+///
+/// GET handler for excel export
+///
+pub async fn get_moofoologs_export(
+    headers: HeaderMap,
+    state: State<AppState>,
+) -> Result<([(http::HeaderName, http::HeaderValue); 2], Vec<u8>), CustomError> {
+    let db = state.0.conn;
+    let metrics = state.0.metrics;
+
+    // === "AUTH" ===
+    let user_id = check_token("EXPORT", headers, metrics, &db).await?;
+
+    let count = moofoolog::Entity::find()
+        .filter(Column::UserId.eq(&user_id)) // only get logs for the user behind our token.
+        .order_by_desc(Column::Timestamp)
+        .into_model::<moofoolog::Model>()
+        .count(&db)
+        .await?;
+    if count > 5000 {
+        return Err(CustomError::BadRequest(
+            "Too many entries to export. Maximum is 5000.".to_string(),
+        ));
+    }
+
+    let res = moofoolog::Entity::find()
+        .filter(Column::UserId.eq(&user_id)) // only get logs for the user behind our token.
+        .order_by_desc(Column::Timestamp)
+        .into_model::<moofoolog::Model>()
+        .all(&db)
+        .await?;
+
+    use rust_xlsxwriter::{Workbook, XlsxError};
+    let mut workbook = Workbook::new();
+    let worksheet = workbook.add_worksheet();
+
+    // Add headers
+    worksheet.write_string(0, 0, "Id")?;
+    worksheet.write_string(0, 1, "Timestamp")?;
+    worksheet.write_string(0, 2, "Mood")?;
+    worksheet.write_string(0, 3, "Food1")?;
+    worksheet.write_string(0, 4, "Food1Time")?;
+    worksheet.write_string(0, 5, "Food2")?;
+    worksheet.write_string(0, 6, "Food2Time")?;
+
+    // Write data
+    for (index, row) in res.iter().enumerate() {
+        let row_num = (index + 1) as u32;
+        worksheet.write_number(row_num, 0, row.id as f64)?;
+        worksheet.write_string(row_num, 1, &row.timestamp.to_string())?;
+        worksheet.write_string(row_num, 2, &row.mood)?;
+        if !row.food1.is_empty() {
+            worksheet.write_string(row_num, 3, &row.food1)?;
+        }
+        if !row.food1_time.is_empty() {
+            worksheet.write_string(row_num, 4, &row.food1_time.to_string())?;
+        }
+        if !row.food2.is_empty() {
+            worksheet.write_string(row_num, 5, &row.food2)?;
+        }
+        if !row.food2_time.is_empty() {
+            worksheet.write_string(row_num, 6, &row.food2_time.to_string())?;
+        }
+    }
+
+    let buffer = workbook.save_to_buffer().map_err(|e: XlsxError| {
+        CustomError::InternalServerError(format!("Failed to create Excel file: {}", e))
+    })?;
+
+    let now: String = Utc::now().format("%Y-%m-%dT%H-%M-%S").to_string();
+    let headers = [
+        (
+            http::header::CONTENT_TYPE,
+            http::HeaderValue::from_static(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ),
+        ),
+        (
+            http::header::CONTENT_DISPOSITION,
+            http::HeaderValue::from_str(
+                format!("attachment; filename=\"moofoolog_export_{now}.xlsx\"").as_str(),
+            )?,
+        ),
+    ];
+
+    Ok((headers, buffer))
 }

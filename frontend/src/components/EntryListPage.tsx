@@ -76,6 +76,24 @@ const DeleteIcon = () => (
   </svg>
 );
 
+const ExportIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="7 10 12 15 17 10" />
+    <line x1="12" y1="15" x2="12" y2="3" />
+  </svg>
+);
+
 const EntryListPage: React.FC = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [page, setPage] = useState(0);
@@ -131,6 +149,61 @@ const EntryListPage: React.FC = () => {
     }
   };
 
+  const handleExport = async () => {
+    if (!token) {
+      toast.error('Authentication token not found.');
+      return;
+    }
+    toast.loading('Exporting data...', { id: 'export-toast' });
+
+    try {
+      const response = await axios.get('/api/moofoolog/export', {
+        headers: {
+          'MooFoo-Token': token,
+        },
+        responseType: 'blob',
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      const contentDisposition = response.headers['content-disposition'];
+      let filename = 'moofoolog_export.xlsx';
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch && filenameMatch.length > 1) {
+          filename = filenameMatch[1];
+        }
+      }
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+
+      if(link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
+      window.URL.revokeObjectURL(url);
+
+      toast.success('Export successful!', { id: 'export-toast' });
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const errorData = JSON.parse(reader.result as string);
+                    toast.error(`Export failed: ${errorData.error}`, { id: 'export-toast' });
+                } catch (e) {
+                    toast.error('Export failed with an unknown error.', { id: 'export-toast' });
+                }
+            };
+            reader.readAsText(error.response.data);
+          } else {
+            toast.error('Export failed.', { id: 'export-toast' });
+            console.error(error);
+          }
+    }
+  };
+
   return (
     <div className="entry-list-page">
       
@@ -138,9 +211,14 @@ const EntryListPage: React.FC = () => {
         <button onClick={() => navigate('/form')} className="menu-button">
             <BackIcon />
         </button>
-        <button onClick={logout} className="logout-button">
-          <LogoutIcon />
-        </button>
+        <div className="header-actions">
+          <button onClick={handleExport} className="menu-button">
+            <ExportIcon />
+          </button>
+          <button onClick={logout} className="logout-button">
+            <LogoutIcon />
+          </button>
+        </div>
       </div>
       
       <div className="entry-list-header">
